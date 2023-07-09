@@ -1,19 +1,30 @@
 {
   "name": "SoundLink",
-  "id": "com.haydenexiga.soundlink",
-  "version": "1.0.0",
-  "buildId": "1",
-  "cordova": {
-    "preferences": {
-      "BackupWebStorage": "none"
+  "expo": {
+    "name": "SoundLink",
+    "slug": "soundlink",
+    "version": "1.0.0",
+    "sdkVersion": "43.0.0",
+    "platforms": ["ios", "android"],
+    "icon": "./assets/icon/icon.png",
+    "splash": {
+      "image": "./assets/splash/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "android": {
+      "package": "com.haydenexiga.soundlink.android"
+    },
+    "ios": {
+      "bundleIdentifier": "com.haydenexiga.soundlink.ios",
+      "supportsTablet": true,
+      "config": {
+        "usesNonExemptEncryption": false
+      },
+      "infoPlist": {
+        "NSCameraUsageDescription": "For Your profile picture",
+        "NSPhotoLibraryUsageDescription": "For Your Profile Picture"
+      }
     }
-  },
-  "android": {
-    "icon": "./assets/icon/android-icon.png",
-    "package": "com.haydenexiga.soundlink.android"
-  },
-  "ios": {
-    "icon": "./assets/icon/ios-icon.png",
-    "bundleIdentifier": "com.haydenexiga.soundlink.ios"
   }
 }
