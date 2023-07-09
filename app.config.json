@@ -1,6 +1,6 @@
 {
-  "Hayden": "SoundLink",
-  "displayName": "SoundLink",
+  "SoundLink": "YourAppName",
+  "SoundLink": "Your App Name",
   "expo": {
     // Expo-specific configuration options, if applicable
   },
