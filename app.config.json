@@ -1,10 +1,19 @@
 {
-  "SoundLink": "YourAppName",
-  "SoundLink": "Your App Name",
-  "expo": {
-    // Expo-specific configuration options, if applicable
+  "name": "SoundLink",
+  "id": "com.haydenexiga.soundlink",
+  "version": "1.0.0",
+  "buildId": "1",
+  "cordova": {
+    "preferences": {
+      "BackupWebStorage": "none"
+    }
   },
-  "rnpm": {
-    // React Native-specific configuration options, if applicable
+  "android": {
+    "icon": "./assets/icon/android-icon.png",
+    "package": "com.haydenexiga.soundlink.android"
+  },
+  "ios": {
+    "icon": "./assets/icon/ios-icon.png",
+    "bundleIdentifier": "com.haydenexiga.soundlink.ios"
   }
 }
