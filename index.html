@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Audio File Manager App</title>
-  <!-- Add any necessary stylesheets or external dependencies here -->
 </head>
 <body>
   <h1>Audio File Manager App</h1>
@@ -17,43 +16,31 @@
       }
 
       async upload(file) {
-        const uploadedFile = await this.simulateFileUpload(file);
-        this.audioFiles.push(uploadedFile);
-        return uploadedFile;
-      }
-
-      simulateFileUpload(file) {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            const uploadedFile = {
-              id: Date.now(),
-              name: file.name,
-              url: `https://example.com/uploads/${file.name}`,
-              collaborationRequests: [],
-            };
-            resolve(uploadedFile);
-          }, 2000);
-        });
+        try {
+          // Implement logic to handle the audio file upload
+          // You can use advanced techniques like async/await and file processing libraries
+          const uploadedFile = await simulateUpload(file);
+          this.audioFiles.push(uploadedFile);
+          return uploadedFile;
+        } catch (error) {
+          throw new Error('Failed to upload file');
+        }
       }
 
       async delete(fileId) {
-        const index = this.audioFiles.findIndex(file => file.id === fileId);
-        if (index === -1) {
-          throw new Error('File not found');
+        try {
+          // Implement logic to delete the audio file
+          // You can use advanced techniques to remove the file from the server or cloud storage
+          const index = this.audioFiles.findIndex(file => file.id === fileId);
+          if (index !== -1) {
+            this.audioFiles.splice(index, 1);
+            return 'File deleted successfully';
+          } else {
+            throw new Error('File not found');
+          }
+        } catch (error) {
+          throw new Error('Failed to delete file');
         }
-
-        await this.simulateFileDeletion();
-
-        const deletedFile = this.audioFiles.splice(index, 1)[0];
-        return `File '${deletedFile.name}' deleted successfully`;
-      }
-
-      simulateFileDeletion() {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve();
-          }, 1000);
-        });
       }
 
       getAll() {
@@ -75,58 +62,73 @@
       }
 
       canSendMessage() {
-        return this.paidSubscriber || this.dailyMessageLimit > 0;
+        if (this.paidSubscriber) {
+          return true; // Unlimited messaging for paid subscribers
+        } else {
+          return this.dailyMessageLimit > 0; // Check remaining daily message limit
+        }
       }
 
       async sendMessage(fileId, creatorId, message) {
-        if (!this.canSendMessage()) {
-          throw new Error('Daily message limit exceeded');
-        }
-
-        const file = audioFileManager.getAll().find(file => file.id === fileId);
-        if (!file) {
-          throw new Error('File not found');
-        }
-
-        await this.simulateRequestSending();
-
-        const timestamp = Date.now();
-        const collaborationRequest = {
-          creatorId,
-          message,
-          timestamp,
-        };
-
-        file.collaborationRequests.push(collaborationRequest);
-        collaborationRequest.requestCount = file.collaborationRequests.length;
-
-        return 'Collaboration request sent successfully';
-      }
-
-      simulateRequestSending() {
-        return new Promise((resolve) => {
-          setTimeout(() => {
+        try {
+          if (this.canSendMessage()) {
+            // Implement logic to send a collaboration request to the creator
+            // You can use advanced techniques like WebSocket for real-time communication
             if (!this.paidSubscriber) {
-              this.dailyMessageLimit--;
+              this.dailyMessageLimit--; // Deduct from the daily message limit for free users
             }
-            resolve();
-          }, 1000);
-        });
+            const timestamp = Date.now();
+            const collaborationRequest = {
+              creatorId,
+              message,
+              timestamp,
+            };
+            const file = audioFileManager.getAll().find(file => file.id === fileId);
+            if (file) {
+              file.collaborationRequests.push(collaborationRequest);
+              collaborationRequest.requestCount = file.collaborationRequests.length;
+            }
+            return 'Collaboration request sent successfully';
+          } else {
+            throw new Error('Daily message limit exceeded');
+          }
+        } catch (error) {
+          throw new Error('Failed to send collaboration request');
+        }
       }
 
       async subscribe() {
-        await this.simulateSubscription();
-        this.paidSubscriber = true;
-        return 'Subscription successful. You now have unlimited messaging.';
+        try {
+          // Implement logic to subscribe the user and unlock unlimited messaging
+          // You can use advanced techniques like payment gateways and user management systems
+          await simulateSubscription(); // Simulate subscription process
+          this.paidSubscriber = true;
+          return 'Subscription successful. You now have unlimited messaging.';
+        } catch (error) {
+          throw new Error('Failed to subscribe');
+        }
       }
+    }
 
-      simulateSubscription() {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve();
-          }, 2000);
-        });
-      }
+    // Helper functions for simulating async operations
+    function simulateUpload(file) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          const uploadedFile = {
+            id: Date.now(),
+            name: file.name,
+            url: 'https://example.com/uploads/' + file.name,
+            collaborationRequests: [],
+          };
+          resolve(uploadedFile);
+        }, 2000);
+      });
+    }
+
+    function simulateSubscription() {
+      return new Promise((resolve, reject) => {
+        setTimeout(resolve, 2000);
+      });
     }
 
     // Usage example
@@ -136,14 +138,14 @@
 
       try {
         // Upload an audio file
-        const file = { name: 'example.mp3' };
+        const file = /* your file object */;
         const uploadedFile = await audioFileManager.upload(file);
         console.log('File uploaded:', uploadedFile);
         const allAudioFiles = audioFileManager.getAll();
         console.log('All audio files:', allAudioFiles);
 
         // Delete an audio file
-        const fileId = uploadedFile.id;
+        const fileId = /* your file ID */;
         const deletionMessage = await audioFileManager.delete(fileId);
         console.log('Deletion:', deletionMessage);
         const remainingAudioFiles = audioFileManager.getAll();
@@ -152,13 +154,11 @@
         // Send collaboration requests
         for (let i = 0; i < 15; i++) {
           try {
-            const creatorId = 'user123';
-            const message = `Collaboration request ${i + 1}`;
             await collaborationManager.sendMessage(fileId, creatorId, message);
             console.log(`Collaboration request ${i + 1} sent successfully.`);
           } catch (error) {
             console.error(`Collaboration request ${i + 1} error:`, error);
-            if (error.message === 'Daily message limit exceeded') {
+            if (error === 'Daily message limit exceeded') {
               break;
             }
           }
@@ -171,4 +171,6 @@
         console.error('Error:', error);
       }
     })();
- 
+  </script>
+</body>
+</html>
