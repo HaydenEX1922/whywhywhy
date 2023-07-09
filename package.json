@@ -1,0 +1,33 @@
+{
+  "name": "soundlink",
+  "version": "1.0.0",
+  "description": "SoundLink App",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "build": "appflow build",
+    "deploy": "appflow deploy"
+  },
+  "dependencies": {
+    "dependency1": "^1.0.0",
+    "dependency2": "^2.0.0"
+  },
+  "devDependencies": {
+    "devDependency1": "^1.0.0",
+    "devDependency2": "^2.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/haydenexiga/soundlink.git"
+  },
+  "author": "Hayden Exiga",
+  "license": "MIT",
+  "appflow": {
+    "android": {
+      "buildType": "simulator"
+    },
+    "ios": {
+      "buildType": "development"
+    }
+  }
+}
