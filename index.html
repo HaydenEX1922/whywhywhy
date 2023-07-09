@@ -138,14 +138,14 @@
 
       try {
         // Upload an audio file
-        const file = /* your file object */;
+        const file = { name: 'example.mp3' };
         const uploadedFile = await audioFileManager.upload(file);
         console.log('File uploaded:', uploadedFile);
         const allAudioFiles = audioFileManager.getAll();
         console.log('All audio files:', allAudioFiles);
 
         // Delete an audio file
-        const fileId = /* your file ID */;
+        const fileId = uploadedFile.id;
         const deletionMessage = await audioFileManager.delete(fileId);
         console.log('Deletion:', deletionMessage);
         const remainingAudioFiles = audioFileManager.getAll();
@@ -154,23 +154,5 @@
         // Send collaboration requests
         for (let i = 0; i < 15; i++) {
           try {
-            await collaborationManager.sendMessage(fileId, creatorId, message);
-            console.log(`Collaboration request ${i + 1} sent successfully.`);
-          } catch (error) {
-            console.error(`Collaboration request ${i + 1} error:`, error);
-            if (error === 'Daily message limit exceeded') {
-              break;
-            }
-          }
-        }
-
-        // Subscribe to unlock unlimited messaging
-        const subscriptionMessage = await collaborationManager.subscribe();
-        console.log(subscriptionMessage);
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    })();
-  </script>
-</body>
-</html>
+            const creatorId = 'user123';
+            const message = `
