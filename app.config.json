@@ -1,0 +1,10 @@
+{
+  "Hayden": "SoundLink",
+  "displayName": "SoundLink",
+  "expo": {
+    // Expo-specific configuration options, if applicable
+  },
+  "rnpm": {
+    // React Native-specific configuration options, if applicable
+  }
+}
